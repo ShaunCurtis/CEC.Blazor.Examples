@@ -2,17 +2,41 @@
 
 @inherits ViewBase
 
-<h1>Counter</h1>
+<div class="container m-4">
+    <h1>Counter</h1>
 
-<p>Current count: @currentCount</p>
+    <p>Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+</div>
+
+<UITag Tag="div" Show="isModal" Css="container m-1 p-2">
+    <UITag Tag="div" Css="container">
+        <p>This section only shows when the View is opened in a Modal Dialog</p>
+    </UITag>
+
+    <UITag Tag="div" Css="container text-right">
+        <button class="btn btn-dark" @onclick="Exit">Exit</button>
+    </UITag>
+</UITag>
 
 @code {
+
+    [CascadingParameter]
+    protected IModal ModalParent { get; set; }
+
     private int currentCount = 0;
+
+    private bool isModal => this.ModalParent != null;
 
     private void IncrementCount()
     {
         currentCount++;
     }
+
+    private void Exit()
+    {
+        if (isModal) this.ModalParent.Close(ModalResult.Exit());
+    }
+
 }

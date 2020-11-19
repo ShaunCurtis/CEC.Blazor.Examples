@@ -80,13 +80,20 @@ namespace CEC.Blazor.Examples.Components
         protected async Task RenderAsync() => await this.InvokeAsync(Render);
 
         /// <summary>
+        /// Method Called on a Component when it is attached to the RenderTree
+        /// Only called once
+        /// </summary>
+        /// <returns></returns>
+        protected Task OnAttachAsync() => Task.CompletedTask;
+
+        /// <summary>
         /// Returns a flag to indicate whether the component should render.
         /// </summary>
         /// <returns></returns>
         protected virtual bool ShouldRender() => true;
 
         /// <summary>
-        /// Public Method called after the component has been rendered
+        /// Method called after the component has been rendered
         /// </summary>
         /// <param name="firstRender"></param>
         /// <returns></returns>
@@ -113,7 +120,7 @@ namespace CEC.Blazor.Examples.Components
         /// IComponent Attach implementation
         /// </summary>
         /// <param name="renderHandle"></param>
-        void IComponent.Attach(RenderHandle renderHandle)
+        async void IComponent.Attach(RenderHandle renderHandle)
         {
             if (_renderHandle.IsInitialized)
             {
@@ -121,6 +128,7 @@ namespace CEC.Blazor.Examples.Components
             }
             _firstRender = true;
             _renderHandle = renderHandle;
+            await OnAttachAsync();
         }
 
         /// <summary>
