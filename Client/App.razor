@@ -1,0 +1,9 @@
+@using CEC.Blazor.Examples.Components
+
+<ViewManager DefaultViewData="this.viewData" ModalType="typeof(CEC.Blazor.Examples.Components.BootstrapModal)" DefaultLayout="typeof(MainLayout)">
+</ViewManager>
+
+@code {
+    public ViewData viewData = new ViewData(typeof(CEC.Blazor.Examples.Components.Index), null);
+}
+

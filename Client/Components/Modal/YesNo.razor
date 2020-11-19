@@ -1,0 +1,14 @@
+﻿@inherits ComponentBase
+
+@namespace CEC.Blazor.Examples.Components
+
+<div>
+    <div>
+        @((MarkupString)this.Message)
+    </div>
+    <div>
+        <button type="button" class="btn btn-danger" @onclick="(e => this.Close(true))">Exit</button>
+        <button type="button" class="btn btn-success" @onclick="(e => this.Close(false))">Cancel</button>
+    </div>
+</div>
+
