@@ -6,11 +6,11 @@ If a web based SPA [Single Page Application] is going to look like a real applic
 
 ## Code and Examples
 
-A version of the standard Blazor site implementing modal dialogs is at [CEC.Blazor.Examples](https://github.com/ShaunCurtis/CEC.Blazor.Examples).
+A version of the standard Blazor site implementing modal dialogs is [here at CEC.Blazor.Examples](https://github.com/ShaunCurtis/CEC.Blazor.Examples).
 
-The component is part of my larger application `CEC.Blazor` Library avaliable on Github at [CEC.Blazor](https://github.com/ShaunCurtis/CEC.Blazor).  
+The component is part of my larger Application Framework Library `CEC.Blazor` avaliable on Github at [CEC.Blazor](https://github.com/ShaunCurtis/CEC.Blazor).  
 
-You can see live examples in action at:
+You can see live sites at:
 
 - [CEC.Blazor.Examples Site](https://cec-blazor-examples.azurewebsites.net/)
 - [CEC.Blazor WASM Site](https://cec-blazor-wasm.azurewebsites.net/) - look at *Modal Weather*.
@@ -29,7 +29,7 @@ There are three classes, one interface and one Enum:
 
 ### IModal
 
-`IModal` defines an interface that all modal dialogs need to implementation.
+`IModal` defines an interface that all modal dialogs must implementation.
 
 ```c#
 public interface IModal
@@ -65,7 +65,7 @@ public enum ModalResultType
 
 ### ModalResult
 
-`ModalResult` is passed back to the `Show` caller as the Task completion result when the modal closes.
+`ModalResult` is passed back to the `Show` caller as the `Task` completion result when the modal closes.
 
 ```c#
 public class ModalResult
@@ -93,7 +93,7 @@ public class ModalResult
 ```
 ### ModalOptions
 
-`ModalOptions` is an options class passed to the Modal Dialog class when opening the Dialog.  The properties are pretty self explanatory.  The `Parameters` property gives flexibility in what gets passed.
+`ModalOptions` is an options class passed to the Modal Dialog class when opening the Dialog.  The properties are pretty self explanatory.  `Parameters` provides a flexibility way to pass values.
 ```c#
 public class ModalOptions
 {
@@ -133,7 +133,7 @@ public class ModalOptions
 ```
 ### BootStrapModal
 
-The Razor Markup for `BootstrapModal` replicates Bootstrap markup for a dialog.  We don't need to worry about toggling the container `display` mode, no content is rendered when `_ShowDialog` is false.  We use a cascade to pass the instance of the ModalDialog to child forms. 
+The Razor Markup for `BootstrapModal` implements Bootstrap markup for a dialog.  No need to worry about toggling the container `display` mode, no content gets rendered when `_ShowDialog` is false.  A cascading value gives child forms access to the instance of ModalDialog. 
 ```c#
 @inherits Component
 
@@ -168,9 +168,9 @@ The Razor Markup for `BootstrapModal` replicates Bootstrap markup for a dialog. 
 ```
 
 Some key points:
-1. The component is initialised when the View is created and added to the RenderTree.
-2. You don't need multiple copies for different forms.  When "hidden" there's no form loaded.  Call `Show<TForm>`, supplying the component type to display the Form as `TForm`.
-3. The component hides itself.  Either the "child" calls the `BootstrapModal` function `Close` or `BootstrapModal` itself calls  `Dismiss`.  Both actions set the Task to completed, set `_ShowModal` to false, clear the content and call `Render`.  With `_ShowModal` false, nothing gets rendered.
+1. The component is initialised when the View is created and added to the RenderTree.  Art this point it empty.
+2. There's no need for multiple copies for different forms.  When "hidden" there's no form loaded.  Calling `Show<TForm>`, supplying the component type to display the Form as `TForm`, shows the dialog and initialises an instance of `TForm`.
+3. The component hides itself.  Either the child form calls the `BootstrapModal` function `Close` or `BootstrapModal` itself calls  `Dismiss`.  Both actions set the Task to completed, `_ShowModal` to false, clear the content and call `Render`.  With `_ShowModal` false, nothing gets rendered.
 3. The component uses a `TaskCompletionSource` object to manage the async behaviour of the component and communicate task status back to the caller.
 
 ```c#
@@ -247,8 +247,8 @@ Some key points:
 ### The YesNoModal
 
 The `YesNoModal` is a simple "Are You Sure" modal form.
-1. It captures the cascaded parent `IModal` object reference as `Parent` 
-2. It calls `Close` which calls `Parent.Close()` to hide the dialog with one of the `ModalResult` constructor methods to build the correct `ModalResult` response. 
+1. It captures the cascaded parent `IModal` object reference as `Parent`.
+2. It calls `Close` which calls `Parent.Close()` to hide the dialog. 
 3. It checks for a message parameter in `Parent.Options`.
 
 ```html
@@ -291,7 +291,11 @@ public partial class YesNo : Component
 
 ### Form using BootstrapModal
 
-`Index.razor` - in *Components/Views* - shows how to implement the modal dialog.  The application is routerless,  controling "paging" though a `ViewManager`.  *Views* such as `Index` inherit from ViewBase which exposes the `ViewManager` as `ViewManager` .  `ViewManager` implements an `IModal` dialog as part of it's base setup.  You access the modal dialog through `Viewmanager.ShowModalAsync<TForm>(modaloptions)`.
+`Index.razor` - in *Components/Views* - shows how to implement the modal dialog.    
+
+> The application is routerless,  controlling "paging" though a `ViewManager`.  *Views* such as `Index` inherit from ViewBase rather than `ComponentBase`,  exposing the `ViewManager` instance as `ViewManager` .  `ViewManager` implements an `IModal` dialog as part of it's base setup.
+> 
+You open the modal dialog through `Viewmanager.ShowModalAsync<TForm>(modaloptions)`.
 
 I won't show all the `Index` code here, just some relevant snippets.
 
@@ -303,10 +307,10 @@ The following buttons are used to show different modal dialogs.
 <button type="button" class="btn btn-primary" @onclick="(e => this.AreYouSureAsync())">Are You Sure Dialog</button>
 ```
 
-The function that opens the FetchData View is shown below.
+The function that opens the FetchData View is shown below.  It's *async* and waits on the `Task` object passed back by the modal dialog to complete.
 
 It:
-1. Locks the application so the user can't navigate away.
+1. Locks the application so the user can't navigate away it.
 2. Builds a `ModalOptions` object.
 3. Calls `ShowModalDialogAsync` on the `ViewManager`.  This opens the dialog and renders an instance of `FetchData` as the child content.
 4. Waits for the provided task to complete. The Modal Dialog sets the task to complete when it closes.
@@ -334,7 +338,7 @@ protected async void FetchDataDialog()
 }
 ```
 
-*Are You Sure* is the same with a slightly different set of `ModalOptions`.
+*Are You Sure* is more of the same, with a slightly different set of `ModalOptions`.
 
 ```c#
 protected async void AreYouSureAsync()
@@ -354,14 +358,16 @@ protected async void AreYouSureAsync()
     this.ViewManager.UnLockView();
 }
 ```
-We use the same `IModal` instance to display different forms.  `ShowAsync` passes the type of form, and `BootstrapModal` does the rest.
+We use the same `IModal` instance to display different forms.  `ShowAsync` passes the type of form, and `BootstrapModal` does the rest.  The dialog is just a container for whatever form you want displaying.
 
 ### Counter.razor
 
-`Counter` demonstrates how to code a View to handle Dialog and View display options.
+`Counter` demonstrates how to code a form to handle Dialog and View display options.
 
 1. `UITag` is a simple helper component that builds out a HTML `<div>` you can turn on and off.
-2. `isModal` controls the display of the exit button by checking `ModalParent`. Not `null` means it's displayed in a modal dialog.  
+2. `isModal` controls the display of the exit button by checking `ModalParent`. Not `null` means it's displayed in a modal dialog.
+
+Check the counter in both the modal and full display modes.
 
 ```html
 @namespace CEC.Blazor.Examples.Components
