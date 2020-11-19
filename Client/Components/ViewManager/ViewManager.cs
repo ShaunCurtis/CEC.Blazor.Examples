@@ -305,7 +305,7 @@ namespace CEC.Blazor.Examples.Components
         /// <typeparam name="TForm"></typeparam>
         /// <param name="modalOptions"></param>
         /// <returns></returns>
-        public async Task<ModalResult> ShowModalAsync<TForm>(ModalOptions modalOptions) where TForm : IComponent => await this.ModalDialog.Show<TForm>(modalOptions);
+        public async Task<ModalResult> ShowModalAsync<TForm>(ModalOptions modalOptions) where TForm : IComponent => await this.ModalDialog.ShowAsync<TForm>(modalOptions);
 
         /// <summary>
         /// Method to set or unset the browser onbeforeexit challenge

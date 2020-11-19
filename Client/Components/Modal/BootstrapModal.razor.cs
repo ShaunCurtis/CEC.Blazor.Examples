@@ -50,7 +50,7 @@ namespace CEC.Blazor.Examples.Components
         /// <typeparam name="TModal"></typeparam>
         /// <param name="options"></param>
         /// <returns></returns>
-        public Task<ModalResult> Show<TModal>(ModalOptions options) where TModal : IComponent
+        public Task<ModalResult> ShowAsync<TModal>(ModalOptions options) where TModal : IComponent
         {
             this.Options = options;
             this._modalcompletiontask = new TaskCompletionSource<ModalResult>();
