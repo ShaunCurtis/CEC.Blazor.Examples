@@ -1,4 +1,4 @@
-@using System.Net.Http
+﻿@using System.Net.Http
 @using System.Net.Http.Json
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
@@ -6,11 +6,12 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Http
 @using Microsoft.JSInterop
 @using CEC.Blazor.Examples.Client
-@using CEC.Blazor.Examples.Client.Shared
 @using CEC.Blazor.Examples.Client.Components
 @using CEC.Blazor.Examples.Components
 
-<ViewManager DefaultViewData="this.viewData" ModalType="typeof(CEC.Blazor.Examples.Client.Components.BootstrapModal)" DefaultLayout="typeof(MainLayout)">
+@namespace CEC.Blazor.Examples.Components
+
+<ViewManager DefaultViewData="this.viewData" ModalType="typeof(CEC.Blazor.Examples.Client.Components.BootstrapModal)" DefaultLayout="typeof(ServerLayout)">
 </ViewManager>
 
 @code {
