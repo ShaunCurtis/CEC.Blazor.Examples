@@ -19,22 +19,15 @@ namespace Blazor.Examples.Server.Controllers
 
         private readonly ILogger<WeatherForecastController> logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private IWeatherForecastService Service { get; set; }
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherForecastService weatherStationService)
         {
             this.logger = logger;
+            Service = weatherStationService;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
+        public async Task<IEnumerable<WeatherForecast>> GetForcastList() => await this.Service.GetForecastAsync();
     }
 }
