@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CEC.Blazor.Examples.Components
+namespace CEC.Blazor.Examples.Client.Components
 {
     /// <summary>
     /// Base UI Rendering Wrapper to build a Css Framework Html Component

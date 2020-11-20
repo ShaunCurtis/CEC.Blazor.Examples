@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CEC.Blazor.Examples.Components
+namespace CEC.Blazor.Examples.Client.Components
 {
     /// <summary>
     /// Describes information for a view

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CEC.Blazor.Examples.Components
+namespace CEC.Blazor.Examples.Client.Components
 {
     public class ModalOptions
     {

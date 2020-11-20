@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CEC.Blazor.Examples.Shared
+namespace CEC.Blazor.Examples.Services
 {
     public class WeatherForecast
     {

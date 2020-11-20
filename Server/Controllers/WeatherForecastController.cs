@@ -1,4 +1,4 @@
-﻿using CEC.Blazor.Examples.Shared;
+﻿using CEC.Blazor.Examples.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
