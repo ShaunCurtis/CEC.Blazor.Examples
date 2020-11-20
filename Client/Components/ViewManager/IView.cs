@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System;
 
-namespace CEC.Blazor.Examples.Components
+namespace CEC.Blazor.Examples.Client.Components
 {
     public interface IView : IComponent
     {

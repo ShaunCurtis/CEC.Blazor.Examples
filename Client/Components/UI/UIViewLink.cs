@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace CEC.Blazor.Examples.Components
+namespace CEC.Blazor.Examples.Client.Components
 {
     /// <summary>
     /// Builds a Bootstrap View Link
