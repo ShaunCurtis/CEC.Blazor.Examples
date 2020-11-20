@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CEC.Blazor.Examples.Components;
+using CEC.Blazor.Examples.Services;
 
 namespace CEC.Blazor.Examples.Client
 {
@@ -19,6 +20,7 @@ namespace CEC.Blazor.Examples.Client
             builder.RootComponents.Add<CEC.Blazor.Examples.Components.WASM>("app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped<IWeatherForecastService, WeatherForecastWASMService>();
 
             await builder.Build().RunAsync();
         }

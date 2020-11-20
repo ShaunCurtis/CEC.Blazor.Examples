@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CEC.Blazor.Examples.Services;
 using System.Linq;
 
 namespace Blazor.Examples.Server
@@ -22,10 +23,10 @@ namespace Blazor.Examples.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
-            services.AddServerSideBlazor();
             services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddSingleton<IWeatherForecastService ,WeatherForecastService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +52,7 @@ namespace Blazor.Examples.Server
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapBlazorHub();
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToPage("/_Host");

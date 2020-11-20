@@ -9,8 +9,6 @@
 @using CEC.Blazor.Examples.Client.Components
 @using CEC.Blazor.Examples.Services
 
-@inject HttpClient Http
-
 @namespace CEC.Blazor.Examples.Components
 
 @inherits ViewBase
@@ -51,10 +49,15 @@
 </div>
 
 @code {
+
+    [Inject]
+    private IWeatherForecastService service { get; set; }
+
     private WeatherForecast[] forecasts;
 
     protected override async Task OnRenderAsync(bool firstRender)
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+        forecasts = await service.GetForecastAsync();
+        // await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
     }
 }
