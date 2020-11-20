@@ -24,6 +24,7 @@ namespace Blazor.Examples.Server
         {
 
             services.AddControllersWithViews();
+            services.AddServerSideBlazor();
             services.AddRazorPages();
         }
 
@@ -52,7 +53,8 @@ namespace Blazor.Examples.Server
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapFallbackToFile("index.html");
+                endpoints.MapFallbackToPage("/_Host");
+                //endpoints.MapFallbackToFile("index.html");
             });
         }
     }
