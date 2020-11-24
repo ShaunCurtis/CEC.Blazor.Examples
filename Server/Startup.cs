@@ -55,8 +55,7 @@ namespace Blazor.Examples.Server
                 endpoints.MapBlazorHub();
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapFallbackToPage("/_Host");
-                //endpoints.MapFallbackToFile("index.html");
+                endpoints.MapFallbackToPage("/Server");
             });
         }
     }
