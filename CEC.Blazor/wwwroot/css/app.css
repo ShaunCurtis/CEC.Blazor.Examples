@@ -13,17 +13,23 @@ a, .btn-link {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
+/*
 app {
     position: relative;
     display: flex;
     flex-direction: column;
 }
-
+*/
 .top-row {
     height: 3.5rem;
     display: flex;
     align-items: center;
+}
+
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .main {
@@ -46,14 +52,8 @@ app {
     text-overflow: ellipsis;
 }
 
-.page {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(0, 0, 0) 0%, #222 70%);
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
     .sidebar .top-row {
