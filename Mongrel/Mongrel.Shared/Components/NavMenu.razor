@@ -1,0 +1,85 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">@MenuTitle</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/">
+                <span class="oi oi-home" aria-hidden="true"></span>/ Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/Home" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Razor MVC Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/red" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Red Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/purple" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Purple Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/grey" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Grey Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/blue" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Blue Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="counter" Match="NavLinkMatch.All">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/grey/fetchdata" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Grey Fetch data
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/red/fetchdata" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Red Fetch data
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/purple/fetchdata" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Purple Fetch data
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/blue?View=Mongrel.Server.Blue.Components.Views.FetchDataView" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Blue Fetch data
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+
+    [CascadingParameter(Name ="MenuTitle")] string MenuTitle { get; set; } = "Mongrel";
+
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

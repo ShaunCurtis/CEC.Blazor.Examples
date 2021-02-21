@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CEC.Routing" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mongrel\Mongrel.Server.Grey\Mongrel.Server.Grey.csproj" />
+    <ProjectReference Include="..\Mongrel\Mongrel.Shared\Mongrel.Shared.csproj" />
+    <ProjectReference Include="..\Mongrel\Mongrel.WASM.Red\Mongrel.WASM.Red.csproj" />
+    <ProjectReference Include="..\Router\CEC.RoutingSample\CEC.RoutingSample.csproj" />
+  </ItemGroup>
+
+</Project>

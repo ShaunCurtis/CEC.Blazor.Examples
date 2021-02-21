@@ -1,0 +1,21 @@
+<CascadingValue Name="SideBar" Value="this.SideBar">
+    <CascadingValue Name="MenuTitle" Value="this.MenuTitle">
+
+        <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            </Found>
+            <NotFound>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <p>Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </NotFound>
+        </Router>
+
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+    string SideBar = "sidebar sidebar-purple";
+    string MenuTitle = "Mongrel.Server.Purple";
+}
