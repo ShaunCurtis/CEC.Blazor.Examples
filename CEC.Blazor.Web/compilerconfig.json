@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/site.css",
+    "inputFile": "SASS/site-bootstrap.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/spectre.css",
+    "inputFile": "SASS/site-spectre.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/spectre-icons.css",
+    "inputFile": "SASS/Spectre/scss/Spectre-icons.scss"
+  }
+]

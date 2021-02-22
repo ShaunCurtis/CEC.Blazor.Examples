@@ -100,18 +100,18 @@ namespace CEC.Blazor
             });
 
 
-            app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/CEC_Blazor_Examples_Server"), app3 =>
+            app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/exampleswasm"), app3 =>
             {
                 app3.UseHttpsRedirection();
                 app3.UseStaticFiles();
 
-                app3.UseBlazorFrameworkFiles("/CEC_Blazor_Examples_WASM");
+                app3.UseBlazorFrameworkFiles("/exampleswasm");
 
                 app3.UseRouting();
 
                 app3.UseEndpoints(endpoints =>
                 {
-                    endpoints.MapFallbackToPage("/CEC_Blazor_Examples_WASM/{*path:nonfile}", "/CEC_Blazor_Examples_WASM");
+                    endpoints.MapFallbackToPage("/exampleswasm/{*path:nonfile}", "/_ExamplesWASM");
                 });
 
             });
@@ -141,10 +141,10 @@ namespace CEC.Blazor
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapRazorPages();
-                endpoints.MapFallbackToPage("/CEC_Blazor_Examples_Server/{*path:nonfile}", "/_CEC_Blazor_Examples_Server");
+                endpoints.MapFallbackToPage("/examplesserver/{*path:nonfile}", "/_ExamplesServer");
                 endpoints.MapFallbackToPage("/grey/{*path:nonfile}", "/_Grey");
                 endpoints.MapFallbackToPage("/blue/{*path:nonfile}", "/_Blue");
-                //endpoints.MapFallbackToPage("/cec.routing/{*path:nonfile}", "/_CEC.Routing");
+                endpoints.MapFallbackToPage("/routing/{*path:nonfile}", "/_Routing");
                 endpoints.MapFallbackToPage("/Index");
             });
         }
