@@ -1,0 +1,26 @@
+﻿@page "/spablue"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Mongrel.Server.BLUE</title>
+    <base href="/blue" />
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/site.css" rel="stylesheet" />
+    <link href="/CEC.Blazor.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <component type="typeof(Mongrel.Server.Blue.Components.Controls.ServerBlueApp)" render-mode="ServerPrerendered" />
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+
+</html>

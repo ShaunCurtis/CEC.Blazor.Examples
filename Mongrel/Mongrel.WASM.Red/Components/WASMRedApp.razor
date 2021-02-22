@@ -1,5 +1,4 @@
-<CascadingValue Name="SideBar" Value="this.SideBar">
-    <CascadingValue Name="MenuTitle" Value="this.MenuTitle">
+<CascadingValue Value="this.SpaSiteData">
 
         <Router AppAssembly="@typeof(Mongrel.WASM.Red.Program).Assembly" PreferExactMatches="@true">
             <Found Context="routeData">
@@ -11,10 +10,13 @@
                 </LayoutView>
             </NotFound>
         </Router>
-    </CascadingValue>
 </CascadingValue>
 
 @code {
-    string SideBar = "sidebar sidebar-red";
-    string MenuTitle = "Mongrel.Server.Red";
+    SPASiteData SpaSiteData = new SPASiteData()
+    {
+        SideBar = "sidebar sidebar-red",
+        MenuTitle = "Mongrel.WASM.Red",
+        SiteUrlSegment = string.Empty
+    };
 }
