@@ -1,0 +1,14 @@
+﻿/* Source SASS file to build custom Bootstrap site file */
+
+@import "Bootstrap/scss/_functions";
+@import "Bootstrap/Custom/_variables";
+
+@import "Bootstrap/scss/bootstrap";
+@import "Bootstrap/Custom/_overrides";
+@import "../wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css";
+
+@import "custom";
+@import "blazor";
+@import "layout";
+@import "navmenu";
+@import "gridtables";

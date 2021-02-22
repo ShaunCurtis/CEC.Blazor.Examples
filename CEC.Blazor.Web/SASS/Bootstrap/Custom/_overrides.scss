@@ -1,0 +1,10 @@
+/* Reduce the default form-group bottom margin*/
+.form-group {
+    margin-bottom: .25rem;
+}
+
+/* set new margins and padding for small alerts*/
+div.alert-sm .alert {
+    padding: .25rem 1.25rem;
+    margin-bottom: 0rem;
+}

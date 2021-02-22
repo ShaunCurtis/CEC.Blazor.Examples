@@ -1,0 +1,18 @@
+// Button Colors
+.btn {
+    &.btn-save {
+        @include button-variant($save-color);
+    }
+
+    &.btn-exit {
+        @include button-variant($exit-color);
+    }
+
+    &.btn-brand {
+        @include button-variant($brand-color);
+    }
+
+    &.btn-delete {
+        @include button-variant($delete-color);
+    }
+}

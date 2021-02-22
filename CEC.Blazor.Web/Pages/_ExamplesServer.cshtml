@@ -1,0 +1,25 @@
+﻿@page "/spaexamplesserver"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>CEC.Blazor.Examples.Server</title>
+    <base href="/examplesserver" />
+    <link href="/css/site.css" rel="stylesheet" />
+    <link href="/CEC.Blazor.Web.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <component type="typeof( CEC.Blazor.Examples.Components.Server)" render-mode="ServerPrerendered" />
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+
+</html>
