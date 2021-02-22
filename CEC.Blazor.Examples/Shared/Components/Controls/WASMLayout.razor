@@ -1,0 +1,28 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+@using CEC.Blazor.Examples.Client
+@using CEC.Blazor.Examples.Client.Components
+
+@namespace CEC.Blazor.Examples.Components
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar sidebar-teal">
+        <NavMenu IsWASM="true" MenuTitle="Examples WASM Site" />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>

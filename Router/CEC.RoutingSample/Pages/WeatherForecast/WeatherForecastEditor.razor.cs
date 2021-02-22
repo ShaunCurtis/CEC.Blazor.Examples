@@ -1,5 +1,5 @@
-﻿using CEC.RoutingSample.Components;
-using CEC.RoutingSample.Data;
+﻿using CEC.Blazor.Examples.Data;
+using CEC.RoutingSample.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Threading.Tasks;

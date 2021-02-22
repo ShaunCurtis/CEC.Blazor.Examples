@@ -8,4 +8,12 @@
     <PackageReference Include="CEC.Routing" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\CEC.Blazor.Examples.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

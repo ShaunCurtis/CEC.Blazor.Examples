@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">@SpaSiteData.MenuTitle</a>
+    <a class="navbar-brand" href="">@MenuTitle</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -18,7 +18,7 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/red/index" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="/red" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Red Home
             </NavLink>
         </li>
@@ -28,7 +28,7 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/grey/index" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="/grey" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Grey Home
             </NavLink>
         </li>
@@ -38,12 +38,12 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="@{this.GetSiteURL("counter")}" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="~/counter" Match="NavLinkMatch.All">
                 <span class="oi oi-plus" aria-hidden="true"></span> Counter
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="@{this.GetSiteURL("fetchdata")}" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="fetchdata" Match="NavLinkMatch.All">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
             </NavLink>
         </li>
@@ -71,16 +71,15 @@
 </div>
 
 @code {
-    [CascadingParameter] SPASiteData SpaSiteData { get; set; } = new SPASiteData();
+
+    [CascadingParameter(Name ="MenuTitle")] string MenuTitle { get; set; } = "Mongrel";
 
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
-        => collapseNavMenu = !collapseNavMenu;
-
-    private string GetSiteURL(string routeurl)
-        => string.IsNullOrEmpty(this.SpaSiteData.SiteUrlSegment) ? routeurl : $"{this.SpaSiteData.SiteUrlSegment.TrimEnd('/')}/{routeurl.TrimStart('/')}";
-
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
 }

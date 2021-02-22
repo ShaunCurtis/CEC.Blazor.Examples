@@ -1,0 +1,77 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+@using CEC.Blazor.Examples.Client
+@using CEC.Blazor.Examples.Client.Components
+
+@namespace CEC.Blazor.Examples.Components
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">@MenuTitle</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        @if (this.IsWASM)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/CEC-Blazor-Examples-Server">
+                    <span class="oi oi-terminal" aria-hidden="true"></span> Switch to Server
+                </NavLink>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="CEC-Blazor-Examples-WASM">
+                    <span class="oi oi-browser" aria-hidden="true"></span> Switch to WASM
+                </NavLink>
+            </li>
+        }
+
+        <li class="nav-item px-3">
+            <UIViewLink class="nav-link" ViewType="typeof(CEC.Blazor.Examples.Components.Index)">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </UIViewLink>
+        </li>
+        <li class="nav-item px-3">
+            <UIViewLink class="nav-link" ViewType="typeof(CEC.Blazor.Examples.Components.Counter)">
+                <span class="oi oi-cloudy" aria-hidden="true"></span> Counter
+            </UIViewLink>
+        </li>
+        <li class="nav-item px-3">
+            <UIViewLink class="nav-link" ViewType="typeof(CEC.Blazor.Examples.Components.FetchData)">
+                <span class="oi oi-cloudy" aria-hidden="true"></span> Fetch Data
+            </UIViewLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="https://github.com/ShaunCurtis/CEC.Blazor.Examples">
+                <span class="oi oi-fork" aria-hidden="true"></span> Github Repo
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    [Parameter]
+    public string MenuTitle { get; set; } = "Blazor.Examples";
+
+    [Parameter]
+    public bool IsWASM { get; set; } = false;
+
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

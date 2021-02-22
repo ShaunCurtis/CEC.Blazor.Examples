@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="@SideBar">
+    <div class="@SpaSiteData.SideBar">
         <NavMenu></NavMenu>
     </div>
 
@@ -17,5 +17,5 @@
 </div>
 
 @code {
-    [CascadingParameter(Name ="SideBar")] string SideBar { get; set; } = "sidebar";
+    [CascadingParameter] SPASiteData SpaSiteData { get; set; } = new SPASiteData();
 }
