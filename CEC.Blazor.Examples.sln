@@ -8,8 +8,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.Blazor.Examples.Shared", "CEC.Blazor.Examples\Shared\CEC.Blazor.Examples.Shared.csproj", "{ED09BE8D-A394-4B1D-BDF8-85852FC1595B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Articles", "Articles", "{2AFC63E4-36BD-4EBA-BCFE-ACDEF5705C4D}"
+	ProjectSection(SolutionItems) = preProject
+		Articles\Hydra Article.md = Articles\Hydra Article.md
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.Blazor.Web", "CEC.Blazor.Web\CEC.Blazor.Web.csproj", "{933F04FF-7FFB-4316-9DD6-3321533C9EF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.Blazor.Hydra", "CEC.Blazor.Hydra\CEC.Blazor.Hydra.csproj", "{933F04FF-7FFB-4316-9DD6-3321533C9EF3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.RoutingSample", "Router\CEC.RoutingSample\CEC.RoutingSample.csproj", "{DBA58362-CB11-4EC4-903F-81AB304961E3}"
 EndProject

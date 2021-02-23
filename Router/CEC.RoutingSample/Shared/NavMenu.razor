@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">CEC.RoutingSample</a>
+    <a class="navbar-brand" href="">CEC.Routing</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -8,8 +8,13 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/hydra" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Hydra Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
             <NavLink class="nav-link" href="routing/index" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> Routing Home
             </NavLink>
         </li>
         <li class="nav-item px-3">

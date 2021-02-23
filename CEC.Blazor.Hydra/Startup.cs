@@ -1,4 +1,5 @@
 using CEC.Blazor.Examples.Services;
+using CEC.Blazor.Hydra.Extensions;
 using CEC.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -30,21 +31,7 @@ namespace CEC.Blazor
             services.AddRazorPages();
             services.AddControllersWithViews();
             services.AddServerSideBlazor();
-            // Server Side Blazor doesn't register HttpClient by default
-            // Thanks to Robin Sue - Suchiman https://github.com/Suchiman/BlazorDualMode
-            if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
-            {
-                // Setup HttpClient for server side in a client side compatible fashion
-                services.AddScoped<HttpClient>(s =>
-                {
-                    // Creating the URI helper needs to wait until the JS Runtime is initialized, so defer it.
-                    var uriHelper = s.GetRequiredService<NavigationManager>();
-                    return new HttpClient
-                    {
-                        BaseAddress = new Uri(uriHelper.BaseUri)
-                    };
-                });
-            }
+            services.AddServerSideHttpClient();
             services.AddSingleton<IWeatherForecastService, WeatherForecastService>();
             // CEC - Services added here
             services.AddCECRouting();
@@ -69,13 +56,8 @@ namespace CEC.Blazor
 
             app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/red"), app1 =>
             {
-                app1.UseHttpsRedirection();
-                app1.UseStaticFiles();
-
                 app1.UseBlazorFrameworkFiles("/red");
-
                 app1.UseRouting();
-
                 app1.UseEndpoints(endpoints =>
                 {
                     endpoints.MapFallbackToPage("/red/{*path:nonfile}", "/_Red");
@@ -85,13 +67,8 @@ namespace CEC.Blazor
 
             app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/purple"), app2 =>
             {
-                app2.UseHttpsRedirection();
-                app2.UseStaticFiles();
-
                 app2.UseBlazorFrameworkFiles("/purple");
-
                 app2.UseRouting();
-
                 app2.UseEndpoints(endpoints =>
                 {
                     endpoints.MapFallbackToPage("/purple/{*path:nonfile}", "/_Purple");
@@ -102,36 +79,14 @@ namespace CEC.Blazor
 
             app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/exampleswasm"), app3 =>
             {
-                app3.UseHttpsRedirection();
-                app3.UseStaticFiles();
-
                 app3.UseBlazorFrameworkFiles("/exampleswasm");
-
                 app3.UseRouting();
-
                 app3.UseEndpoints(endpoints =>
                 {
                     endpoints.MapFallbackToPage("/exampleswasm/{*path:nonfile}", "/_ExamplesWASM");
                 });
 
             });
-
-            //app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/grey"), appgrey =>
-            //{
-            //    appgrey.UseHttpsRedirection();
-            //    appgrey.UseStaticFiles();
-
-            //    appgrey.UseBlazorFrameworkFiles();
-
-            //    appgrey.UseRouting();
-
-            //    appgrey.UseEndpoints(endpoints =>
-            //    {
-            //        endpoints.MapBlazorHub();
-            //        endpoints.MapFallbackToPage("/grey/{*path:nonfile}", "/_Grey");
-            //    });
-
-            //});
 
             app.UseRouting();
 

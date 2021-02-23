@@ -13,13 +13,19 @@
     <title>CEC.Blazor.Examples.WASM</title>
     <base href="/exampleswasm/" />
     <link href="/css/site.css" rel="stylesheet" />
-    <link href="/CEC.Blazor.Web.styles.css" rel="stylesheet" />
+    <link href="/CEC.Blazor.Hydra.styles.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <div class="mt-4" style="margin-right:auto; margin-left:auto; width:100%;">
+            <div class="loader"></div>
+            <div style="width:100%; text-align:center;"><h4>Web Application Loading</h4></div>
+        </div>
+    </div>
 
     <script src="/exampleswasm/_framework/blazor.webassembly.js"></script>
+    <script src="/js/site.js"></script>
 </body>
 
 </html>
