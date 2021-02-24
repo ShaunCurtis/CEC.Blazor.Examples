@@ -2,7 +2,7 @@
 
 I've tried to keep this as simple as possible, basing the sites on the out-of-the-box templates.  I've made no attempt to consolidate code into shared libraries.
 
-[Hydra](https://github.com/ShaunCurtis/CEC.Blazor.Examples/blob/Hydra/Images/Hydra.png?raw=true)
+![Hydra](https://github.com/ShaunCurtis/CEC.Blazor.Examples/blob/master/Images/Hydra.png?raw=true)
 
 ## Building the Hydra Site
 
@@ -13,7 +13,7 @@ Build the starting solution as follows (all are built from the standard VS 2019 
 5. **Hydra.Steel** - A Blazor WASM project (standalone - not NetCore hosted)
 6. **Hydra.Red** - A Blazor WASM project (standalone - not NetCore hosted)
 
-[Initial Project View](https://github.com/ShaunCurtis/CEC.Blazor.Examples/blob/Hydra/Images/Hydra-Solution.png?raw=true)
+![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Solution.png)
 
 Set *Hydra.Web* as the startup project.  If you're working along with me run the project to check the Razor project compiles and runs.
 
@@ -28,6 +28,8 @@ Clear the following files from the two libraries
 Start with the WASM Projects
 
 ### Hydra.Red
+
+![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Solution.png)
 
 Update the project file.  Note `StaticWebAssetBasePath` is set to *red*.
 
