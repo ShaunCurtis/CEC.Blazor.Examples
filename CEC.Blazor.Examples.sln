@@ -9,9 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.Blazor.Examples.Shared"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Articles", "Articles", "{2AFC63E4-36BD-4EBA-BCFE-ACDEF5705C4D}"
 	ProjectSection(SolutionItems) = preProject
-		Articles\Hydra Article.md = Articles\Hydra Article.md
+		Articles\AllInOne Article.md = Articles\AllInOne Article.md
 		Articles\Hydra Build Article.md = Articles\Hydra Build Article.md
 		Articles\Hydra Discussion Article.md = Articles\Hydra Discussion Article.md
+		Articles\Hydra Full Article.md = Articles\Hydra Full Article.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.Blazor.Hydra", "CEC.Blazor.Hydra\CEC.Blazor.Hydra.csproj", "{933F04FF-7FFB-4316-9DD6-3321533C9EF3}"

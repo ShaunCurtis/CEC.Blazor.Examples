@@ -29,7 +29,7 @@ Start with the WASM Projects
 
 ### Hydra.Red
 
-![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Solution.png)
+![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Red.png)
 
 Update the project file.  Note `StaticWebAssetBasePath` is set to *red*.
 
@@ -72,6 +72,8 @@ Update *MainLayout.razor.css* by changing the `.sidebar` background.
 ```
 
 ### Hydra.Steel
+
+![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Steel.png)
 
 Update the project file.  Note the added `StaticWebAssetBasePath` set to *steel*.
 
@@ -131,6 +133,8 @@ Delete:
 3. */Shared/NavMenu.razor.css*
 
 ### Hydra.Web
+
+![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Web.png)
 
 Update the project file.  We add in all projects and a package reference to the Blazor WASM Server library.
 
@@ -192,7 +196,11 @@ Delete the associated model cs files assocated with these.
 </head>
 
 <body>
-    <div id="app"> Loading...
+    <div id="app">
+        <div class="mt-4" style="margin-right:auto; margin-left:auto; width:100%;">
+            <div class="loader"></div>
+            <div style="width:100%; text-align:center;"><h4>Web Application Loading</h4></div>
+        </div>
     </div>
 
     <script src="/red/_framework/blazor.webassembly.js"></script>
@@ -222,7 +230,11 @@ Delete the associated model cs files assocated with these.
 </head>
 
 <body>
-    <div id="app"> Loading...
+    <div id="app">
+        <div class="mt-4" style="margin-right:auto; margin-left:auto; width:100%;">
+            <div class="loader"></div>
+            <div style="width:100%; text-align:center;"><h4>Web Application Loading</h4></div>
+        </div>
     </div>
 
     <script src="/steel/_framework/blazor.webassembly.js"></script>
@@ -344,6 +356,8 @@ Update the `@page` directive and add some buttons for navigation.
 This should all now compile and run.
 
 ## Hydra.Blue
+
+![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Blue.png)
 
 This is the library were we'll use to build one of the Blazor Server SPAs.
 
@@ -472,7 +486,8 @@ Update *App.razor*, changing `AppAssembly`, which is set to *Hydra.Blue.App*, so
 
 ## Hydra.Grey
 
-This is the library were we'll use to build one of the Blazor Server SPAs.
+![Initial Project View](https://raw.githubusercontent.com/ShaunCurtis/CEC.Blazor.Examples/master/Images/Hydra-Grey.png)
+
 
 #### Project File
 

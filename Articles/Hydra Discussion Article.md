@@ -1,14 +1,14 @@
 ﻿# Blazor Hydra - Hosting Multiple Blazor SPAs on a single Site
 
-Building a green field site with a new framework is great, but we don't all get that luxury. What about those with a classic Razor/Server Page ASPNetCore site that they would like to migrate.  The Big Bang is not often not feasible.  You want to run most of your site in classic mode and migrate sections over in bite sized chunks.  Maybe run a pilot on a small section first.
+Building a green field site with a new framework is great, but we don't all get that luxury. What about those with a classic Razor/Server Page ASPNetCore site wanting to migrate where the Big Bang isn't feasible.  You want to run most of your site in classic mode and migrate sections over in bite sized chunks.  Maybe run a pilot on a small section first.
 
 This article shows you how to do just that.  I'll describe how Blazor Server, WASM and Razor sites/applications interact, and how you can run them together on a single AspNetCore web site.
 
-The first half of this article  will examine the technical challenges, looking in depth at how some key bits of Blazor work.  In the second half we'll look at a practical deployment.
-
-**Hydra** is an implementation of the concepts discussed here and the code will be used extensively in the discussions.
+The first half of this article examines the technical challenges, looking in depth at how some key bits of Blazor work.  In the second half we'll look at a simple practical deployment using the out-of-the-box project templates.
 
 ## Code Repository
+
+**Hydra** is an implementation of the concepts discussed here and the code will be used extensively in the discussions.
 
 The code is in two repositories
 
@@ -29,7 +29,7 @@ If you look at the code repository and the test site you'll see a project call *
 
 Lets look at *Startup.cs*.
 
-AspNetCore defines an Inversion Of Control/Dependancy Injection *Services* container defined as a `IServiceCollection`.  If you are unsure what an IOC/DI container is, then do some background reading.  We configure this in `ConfigureServices`.
+AspNetCore has an Inversion Of Control/Dependancy Injection *Services* container defined by `IServiceCollection`.  If you are unsure what an IOC/DI container is, then do some background reading.  We configure this in `ConfigureServices`.
 
 ```c#
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -46,9 +46,7 @@ AspNetCore defines an Inversion Of Control/Dependancy Injection *Services* conta
 
 What you see are a set of services configured directly - such as the `WeatherForecastService` and calls to a set of ServiceCollectionExtensions like `AddServerSideBlazor` and `AddCECRouting`.
 
-To de-mystify these `AddCECRouting` is shown below.  ServiceCollectionExtensions are just ways to configure all the services for a specific function under one roof.  `AddServerSideBlazor` just adds all the necessary services for Blazor Server, such as `NavigationManager` and `IJSRuntime`.
-
-`AddServerSideHttpClient` is defined in CEC.Blazor.Hydra/Extensions if you want to see a ServiceCollectionExtension implementation.
+To de-mystify these, the code for `AddCECRouting` is shown below.  
 
 ```c#
 public static class ServiceCollectionExtensions
@@ -61,9 +59,13 @@ public static class ServiceCollectionExtensions
 }
 ```
 
-`Config` sets up the *Middleware* that gets run by the web server.  We'll break this down into sections
+ServiceCollectionExtensions are just ways to configure all the services for a specific function under one roof.  They are Extension methods for `IServiceCollection`.  `AddServerSideBlazor` just adds all the necessary services for Blazor Server, such as `NavigationManager` and `IJSRuntime`.
 
-The first section is bulk standard implementation for a ASPNetCore web server.
+`AddServerSideHttpClient` is defined in CEC.Blazor.Hydra/Extensions if you want to see a ServiceCollectionExtension implementation.
+
+`Configure` sets up the *Middleware* run by the web server.  We'll break this down into sections.
+
+The first section is ASPNetCore web server standard implementation.
 
 ```c#
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -83,7 +85,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 ```
 
-We define a `MapWhen` for each WASM SPA.  I've only shown one here.  These define specific middleware sets to run for specific site segments - defined by the Url.  This is for the Red WASM in Mongrel.  Note:
+Next we define a `IApplicationBuilder.MapWhen` for each WASM SPA.  I've shown the one for *red* here.  These define the middleware to run for specific site segments - defined by the Url.  This is for the Red WASM.  Note:
 1. We configure `UseBlazorFrameworkFiles` to a specific Url segment- we'll look at the significance of this in the WASM section below. It means the frameworks file path will be *wwwroot/red/_framework/*, providing a unique path for this WASM SPA.
 2. The fallback Page for the segment is `/_Red.cshtml`.     
 
@@ -124,7 +126,7 @@ Finally we define the default segment middleware.  Note:
 
 ### Blazor WASM
 
-Each WASM SPA needs a separate project. `<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+Each WASM SPA must have a separate project. `<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 ` declares the project as a WASM SPA and instructs the compiler to build the project as a WASM SPA.  There's a single `RootComponent` defined in `Program`.
 
 ```c#
@@ -142,9 +144,9 @@ public class Program
 }
 ```
 
-You don't need to stick to `app`.  This declaration defines a different class to `App`.  It basically says render the component of `TComponent` in the HTML tag with `id` of `app`.  Don't be misled by `RootComponents` and `Add`.  Declare one.  You can declare more than one, but they must all be present on the rendered page, so it's fairly pointless: Layouts achieve the same result with far more flexibility.
+You don't need to stick with `app`.  This declaration defines a different class to `App`.  It basically says render the component of `TComponent` in the HTML tag with `id` of `app`.  Don't be misled by `RootComponents` and `Add`.  Declare one.  You can declare more than one, but they must all be present on the rendered page, so it's fairly pointless: Layouts achieve the same result with far more flexibility.
 
-The key section to multi SPA hosting is specifying a unique `StaticWebAssetBasePath` in the project definition file. 
+The key to multi SPA hosting is specifying a unique `StaticWebAssetBasePath` in the project definition file. 
 
 ```xml
   <PropertyGroup>
@@ -160,7 +162,7 @@ The project view above shows all the files in the project.
 
 1. The Layout and navigation are common to all the Mongrel projects so have moved up to the shared library.
 2. `App.razor` has moved into *Components* and been renamed to make it unique.  I don't like `Apps` all over the place.
-3. *wwwroot* has gone as the startup `index.html` has moved up to Hydra as has our CSS.
+3. *wwwroot* has gone as the startup `index.html` has moved up to Hydra, as has the CSS.
 
 Once compiled the *bin* looks like this:
 
@@ -204,23 +206,23 @@ Note:
 1. The `base` is set to `"/red/"`.  **Important** - You need to leading and trailing slashes.
 2. `site.css` is a SASS built CSS file.
 3. `CEC.Blazor.Hydra.styles.css` is the system SASS built CSS incorporating all the reference projects component styles.
-4. We define the specific webassembly script `src="/red/_framework/blazor.webassembly.js"`.  This is important as it looks for it's configuration as *./blazor.boot.json*, i.e. in the same directory.  *./blazor.boot.json* is the configurstion file for loaidng the WASM executables.
+4. We define the specific webassembly script `src="/red/_framework/blazor.webassembly.js"`.  It looks for it's configuration file in *\{base\}/_framework/blazor.boot.json*, where *\{base\}* is defined in `<base href="">`. *./blazor.boot.json* is the configuration file for loading the WASM executables.  It's important to realise that *base* needs to have a trailing "/" for this to work.
 
-The final bit of the jigsaw is the mapping on Hydra's `Startup.cs`.  The middleware is configured with the correct *BlazorFrameworkFiles* and any get requests to */red/* are directed to */_Red.cshtml*.
+The final bit of the jigsaw is the mapping in Hydra's `Startup.cs`.  The middleware is configured with the correct *BlazorFrameworkFiles* and any get requests to */red/* are directed to */_Red.cshtml*.
 
-Once the SPA starts any navigation to known Urls withinin the application are routed by the SPA.  Any external Urls are issued as http gets.  In Hydra and Urls to */red/** are directed to */_Red.cshtml*.  So */red/counter* will start the SPA on the counter page, while  */red/nopage* will load the SPA but you will see the "Nothing at this Address" message.
+Once the SPA starts, any navigation to known Urls within the application are routed by the SPA.  Any external Urls are Http gets.  In Hydra and Urls to */red/** are directed to */_Red.cshtml*.  So */red/counter* will start the SPA on the counter page, while  */red/nopage* will load the SPA but you will see the "Nothing at this Address" message.
 
-You need to be a little careful with the route "/".  I prefer to set the SPA home page up with a route "/index" and always reference it that way in links.
+You need to be a little careful with the route "/".  I prefer to set the SPA home page up with a route "/index" and always reference it that way.
 
 ### Blazor Server
 
-A Blazor Server SPA is configured a little differently.  We don't need to build a `Program.cs` with a single entry point.  We can configure the startup page to load any class implementing `IComponent`, so our entry point can come from anywhere.  For code and route management I define a Razor Library project per SPA.
+A Blazor Server SPA is configured a little differently.  We don't need a `Program.cs` with a single entry point.  We configure the startup page to load any class implementing `IComponent`, so our entry point can come from anywhere.  For code and route management define a Razor Library project per SPA: keep everything compartmentalized.
 
-We've aleady seen the configuration of the `Startup.cs` in the first section, so we don't need to cover it here.  The key point to understadn is that there's one Blazor hub for all the SPAs, so the services required by all the SPAs are defined together.  Ut's easy to overexited about this.  Won't it be huge.  That all depends on what your services are and their scope.  They will only be loaded as needed.
+We've aleady seen the configuration of the `Startup.cs` in the first section, so we don't need to cover it here.  There's one Blazor hub for all the SPAs, so the services required by all the SPAs are defined together.  it's easy to overexcited about this: won't it be huge?  That all depends on what your services are and their scope.  They're only loaded as needed.
 
-You need to configure an *endpoint* for each Server SPA.  You've seen these already.
+You need to configure an *endpoint* for each Server SPA.  You've seen these already in `Startup.cs`.
 
-The client side of the SPA is again defined as a single page, but unlike the WASM page which is just static Html, the Server page is a razor page.  You can see the `Component` entrypoint for the application.  What Razor does with the page depends on the `rendermode`. 
+The client side of the SPA is again defined as a single page.  Unlike the WASM page, which is just static Html, the Server page is a razor page.  You can see the `Component` entry point for the application.  What Razor does with the page depends on the `rendermode`. 
 
 ```html
 @page "/spagrey"
@@ -249,3 +251,16 @@ The client side of the SPA is again defined as a single page, but unlike the WAS
 Once the browser receives whatever got produced by the server, it runs the initial render and then calls the loaded Javascript files.  This where the magic starts.  `blazor.server.js` loads, reads configuration data incorporated in the page and makes a call back to the BlazorHub over SignalR.  The Blazor Hub renders the component tree and passes the changes back over SignalR to the client.  Events happen on the page, get passed back to the Hub Session which hadles the events and passes any DOM changes back to the client.  While any navigation events can be routed by the SPA router, the SPA session persists, but as soon as the URL is outside the router's scope it instructs the browser to submit a full http get for the URL.  The SPA session ends.
 
 So what's going on in the SignalR session.  The AspNetCore compiled code for the website contains all the Blazor component code - they are just standard classes.  The Service container runs the services, again standard classes within the compiled code.  The heart of the signalR session is the specific Renderer for that session.  It builds and rebuilds the DOM from the ComponentTree.  You need to think of the Server SPA as two entities, one running in the Blazor Hub on the Server doing most of the work.  The other bit on the client, intercepting events and passing them back to the server, and re-rendering the page with the DOM changes that are returned. Events one way, DOM changes the other.
+
+## Hydra Build Article
+
+[Hydra Build Article](https://github.com/ShaunCurtis/CEC.Blazor.Examples/blob/master/Articles/Hydra%20Build%20Article.md)
+
+## Wrap Up
+
+There's a lot to take in in this article.  It took me a week, on and off, to pull it all together once I'd proved the concept.  There are some important key concepts to understand:
+
+1. To write Blazor SPA's you need to get out of the "Web" paradigm.  Think old-school desktop application.  A bit retro!  If you don't, it'll be a bit of a dogs breakfast.
+2. A WASM SPA is a compiled executable - just like a desktop application.  The startup page is just like a Shortcut.
+3. A Server SPA is a pointer to a class in the code running on the web site.  The startup page is a server-side shortcut to get it up and running.  Once started, the SPA is a two part affair: one half is the browser SPA, the other a session on the Blazor Hub on the server, inexorably joined by a SignalR session.
+4. You need to be very careful in your Url referencing: a missing "/" can blow you out of the water!

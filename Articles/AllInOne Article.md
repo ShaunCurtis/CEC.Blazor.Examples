@@ -1,5 +1,7 @@
 # Building a Site that Delivers Blazor Server and WASM
 
+> This is the original article for AllInOne.  It's now obselete and supercedeed by the Hydra Articles.  It's maintanined here for completeness.
+
 ## Overview
 
 This article looks at solving the challenges in creating a combined Blazor WASM and Server application - built in the same solution, and run on the same web site.

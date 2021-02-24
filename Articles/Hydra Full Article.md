@@ -45,7 +45,7 @@ AspNetCore defines an Inversion Of Control/Dependancy Injection *Services* conta
 
 What you see are a set of services configured directly - such as the `WeatherForecastService` and calls to a set of ServiceCollectionExtensions like `AddServerSideBlazor` and `AddCECRouting`.
 
-To de-mystify these `AddCECRouting` is shown below.  ServiceCollectionExtensions are just ways to configure all the services for a specific function under one roof.  `AddServerSideBlazor` just adds all the necessary services for Blazor Server, such as `NavigationManager` and `IJSRuntime`.
+To de-mystify these `AddCECRouting` is shown below.  ServiceCollectionExtensions are just ways to configure all the services for a specific function under one roof.  They are Extension methods for `IServiceCollection`.  `AddServerSideBlazor` just adds all the necessary services for Blazor Server, such as `NavigationManager` and `IJSRuntime`.
 
 `AddServerSideHttpClient` is defined in CEC.Blazor.Hydra/Extensions if you want to see a ServiceCollectionExtension implementation.
 
