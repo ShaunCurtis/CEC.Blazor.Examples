@@ -256,7 +256,7 @@ So what's going on in the SignalR session.  The AspNetCore compiled code for the
 
 
 
-## The Base Project
+## Building A Hydra Web Site  The Base Project
 
 I've built the starting solution as follows (all are built from the standard VS 2019 templates):
 1. **Mongrel.Web** - A Razor MVC project.  This is the start up project.
