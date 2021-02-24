@@ -1,8 +1,10 @@
 ﻿# The Blazor Hydra
 
-## Building A Hydra Web Site  The Base Project
+I've tried to keep this as simple as possible, basing the sites on the out-of-the-box templates.  I've made no attempt to consolidate code into shared libraries.
 
-I've built the starting solution as follows (all are built from the standard VS 2019 templates):
+## Building the Hydra Site
+
+Build the starting solution as follows (all are built from the standard VS 2019 templates):
 1. **Hydra.Web** - A Razor MVC project.  This is the start up project.
 3. **Hydra.Grey** - A Razor library project 
 4. **Hydra.Blue** - Another Razor library project
@@ -15,13 +17,13 @@ Set *Hydra.Web* as the startup project.  If you're working along with me run the
 
 #### Clear Out the Two Libraries
 
-First clear the following files out of the three libraries
+Clear the following files from the two libraries
 
 - *wwwroot* and contents
 - *Component1.razor*
 - *ExampleJsInterop.cs*
 
-We'll start with the WASM Projects
+Start with the WASM Projects
 
 ### Hydra.Red
 
@@ -61,7 +63,7 @@ Update *MainLayout.razor.css* by changing the `.sidebar` background.
 
 ```css
 .sidebar {
-    background-image: linear-gradient(180deg, #200 0%, #400 70%);
+    background-image: linear-gradient(180deg, #400 0%, #800 70%);
 }
 ```
 
@@ -105,7 +107,19 @@ Update the *sidebar* in `MainLayout`.
     </div>
 ```
 
-We will use CSS from the main site for this SPA.
+```html
+// Hydra.Steel/Pages/FetchData.razor
+....
+
+    protected override async Task OnInitializedAsync()
+    {
+// Note /sample-data
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("/sample-data/weather.json");
+    }
+....
+```
+
+We will use CSS from *Hydra.Web* for this SPA.
 
 Delete:
 1. The *wwwroot* folder structure
@@ -290,7 +304,9 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         });
 
     });
-    .....
+
+    app.UseRouting();
+
     // default EndPoint Configuration
     app.UseEndpoints(endpoints =>
     {
@@ -304,9 +320,11 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ```
 #### Index.cshtml
 
-Add some buttons for navigation.
+Update the `@page` directive and add some buttons for navigation.
 
 ```html
+@page "/"
+....
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
@@ -320,8 +338,6 @@ Add some buttons for navigation.
 ```
 
 This should all now compile and run.
-
-
 
 ## Hydra.Blue
 
@@ -395,13 +411,42 @@ Copy the *Pages* and *Shared* folders from *Hydra.Red*.
     }
 ....
 ```
-```
 
 Update the *sidebar* in `MainLayout`.
+
 ```html
     <div class="sidebar sidebar-blue">
         <NavMenu />
     </div>
+```
+
+Update `NavMenu.razor`
+
+```html
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/Hydra" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Hydra
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="blue/index" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="blue/counter">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="blue/fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </li>
+    </ul>
+</div>
 ```
 
 
@@ -499,6 +544,42 @@ Update the *sidebar* in `MainLayout`.
     <div class="sidebar sidebar-grey">
         <NavMenu />
     </div>
+```
+
+Update `NavMenu.razor`
+
+```html
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Hydra.Grey</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/Hydra" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Hydra
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="grey/index" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="grey/counter">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="grey/fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </li>
+    </ul>
+</div>
 ```
 
 Update *App.razor*, changing `AppAssembly`, which is set to *Hydra.Grey.App*, so it finds the routes in this assembly.  
