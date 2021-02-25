@@ -1,6 +1,7 @@
-CEC.Blazor.Examples is a repository that holds a version of the Blazor Deployment Application that contains the code for various published articles.  You can find the Articles in the *Articles* folder.
+CEC.Blazor.Examples is a repository that holds code for various Blazor SPAs.  You can find the Articles in the *Articles* folder.
 
 Current these are:
+- Hydra - Deploying multiple Blazor SPAs on a single Razor Site.
 - Replacing the Blazor Component
 - Replacing Blazor Routing with ViewManager
 - A Simple Bootstrap Modal Dialog for Blazor

@@ -6,14 +6,16 @@ This article shows you how to do just that.  I'll describe how Blazor Server, WA
 
 The first half of this article examines the technical challenges, looking in depth at how some key bits of Blazor work.  In the second half we'll look at a simple practical deployment using the out-of-the-box project templates.
 
+![Hydra](https://github.com/ShaunCurtis/CEC.Blazor.Examples/blob/master/Images/Hydra.png?raw=true)
+
 ## Code Repository
 
 **Hydra** is an implementation of the concepts discussed here and the code will be used extensively in the discussions.
 
 The code is in two repositories
 
- - [CEC.Blazor.Examples](https://github.com/ShaunCurtis/Examples) is the main repository.
- - [Hydra](https://github.com/ShaunCurtis/Hydra) contains the code for the second half of this article.
+ - [CEC.Blazor.Examples](https://github.com/ShaunCurtis/Examples) is the main repository.  It contains the code for several articles including this one and is the source code repo for the [Demo Site on Azure](https://cec-blazor-examples.azurewebsites.net/).  It uses the methods discussed in this article to host multiple WASM and Server SPAs on one web site.  Mongrel is the specific site for this article.
+ - [Hydra](https://github.com/ShaunCurtis/Hydra) contains the code for the second half of this article.  A version of Hydra runs on the Demo Site.
 
 ## Misconceptions
 
@@ -218,11 +220,15 @@ You need to be a little careful with the route "/".  I prefer to set the SPA hom
 
 A Blazor Server SPA is configured a little differently.  We don't need a `Program.cs` with a single entry point.  We configure the startup page to load any class implementing `IComponent`, so our entry point can come from anywhere.  For code and route management define a Razor Library project per SPA: keep everything compartmentalized.
 
-We've aleady seen the configuration of the `Startup.cs` in the first section, so we don't need to cover it here.  There's one Blazor hub for all the SPAs, so the services required by all the SPAs are defined together.  it's easy to overexcited about this: won't it be huge?  That all depends on what your services are and their scope.  They're only loaded as needed.
+We've already seen the configuration of the main site's `Startup.cs`, I included the Blazor bit in the discussion above.  It:
+1. Adds the specific Blazor Services by calling `services.AddServerSideBlazor()` in `ConfigureServices`.
+2. Adds the Blazor Hub Middleware by calling `endpoints.MapBlazorHub()` in `Configure`.
 
-You need to configure an *endpoint* for each Server SPA.  You've seen these already in `Startup.cs`.
+The key bot to understand here is there's one Blazor hub for all the SPAs.  Load all the services for each SPA in `ConfigureServices`.  This does place some restrictions and controls on what you can and can't run together, but for most instances this won't be an issue.  Remember Services are only loaded as needed, and cleaned up as they are disposed.  Make sure you get the scope of your service right.
 
-The client side of the SPA is again defined as a single page.  Unlike the WASM page, which is just static Html, the Server page is a razor page.  You can see the `Component` entry point for the application.  What Razor does with the page depends on the `rendermode`. 
+Each Server SPA has an *endpoint*.  You don't need to configure these with `MapWhen` as they all use the same middleware train.Thet're all defined in the default `UseEndpoints`.  You've seen these already in `Startup.cs`.
+
+The client side of the Server SPA is again defined as a single page.  Unlike the WASM page, which is static Html wrapped in a Razor page, the Server SPA page is a razor page.  It has a `Component` entry point that is read by the TagHelper and processed by the server.  What Razor does with the page is dictated by `rendermode`. 
 
 ```html
 @page "/spagrey"
@@ -248,9 +254,9 @@ The client side of the SPA is again defined as a single page.  Unlike the WASM p
 </html>
 ```
 
-Once the browser receives whatever got produced by the server, it runs the initial render and then calls the loaded Javascript files.  This where the magic starts.  `blazor.server.js` loads, reads configuration data incorporated in the page and makes a call back to the BlazorHub over SignalR.  The Blazor Hub renders the component tree and passes the changes back over SignalR to the client.  Events happen on the page, get passed back to the Hub Session which hadles the events and passes any DOM changes back to the client.  While any navigation events can be routed by the SPA router, the SPA session persists, but as soon as the URL is outside the router's scope it instructs the browser to submit a full http get for the URL.  The SPA session ends.
+Once the browser receives what got produced by the server, it renders the initial static DOM provided and then calls the loaded Javascript.  This where the magic starts.  `blazor.server.js` loads, reads configuration data incorporated in the page and establishes a session with the BlazorHub over SignalR and requests the root `IComponent` defined on the page by `<component>` - normally `App` defined by `App.Razor`.  The Blazor middleware, configured on the server by `endpoints.MapBlazorHub()` receives the request and establishes the session.  The Blazor Hub renders the requested `IComponent` component tree and passes the changes back over SignalR to the client: on initial re-render this is the whole DOM.  The SPA is now live.  Events happen on the page, get passed back to the Hub Session.  It handles the events and passes any DOM changes back to the client.  Navigation events to known routes get handled by the SPA router: the SPA session persists.  A URL outside known routes causes the SPA Router to submit a full http get for the URL: the SPA session ends.  I watch the page tab in the browser to see if a request is routed or causes a page refresh.
 
-So what's going on in the SignalR session.  The AspNetCore compiled code for the website contains all the Blazor component code - they are just standard classes.  The Service container runs the services, again standard classes within the compiled code.  The heart of the signalR session is the specific Renderer for that session.  It builds and rebuilds the DOM from the ComponentTree.  You need to think of the Server SPA as two entities, one running in the Blazor Hub on the Server doing most of the work.  The other bit on the client, intercepting events and passing them back to the server, and re-rendering the page with the DOM changes that are returned. Events one way, DOM changes the other.
+So what's going on in the SignalR session.  The AspNetCore compiled code library for the website contains all the Blazor component code - they're just standard classes.  The Service container runs the services, again standard classes within the compiled code library.  The heart of the signalR session is the Renderer for the specific SPA session.  It builds and rebuilds the DOM from the ComponentTree.  Consider a Blazor Server SPA as two entities: one running in the Blazor Hub on the Server doing most of the work; the other bit on the client, intercepting events and passing them back to the server, then re-rendering the page with the DOM changes returned. Events client-to-Server, DOM changes Server-to-Client.
 
 ## Hydra Build Article
 
@@ -258,9 +264,9 @@ So what's going on in the SignalR session.  The AspNetCore compiled code for the
 
 ## Wrap Up
 
-There's a lot to take in in this article.  It took me a week, on and off, to pull it all together once I'd proved the concept.  There are some important key concepts to understand:
+There's a lot to take in in this article.  It took me a while to pull this article together once I'd proven the concepts.  Som important concepts to understand:
 
-1. To write Blazor SPA's you need to get out of the "Web" paradigm.  Think old-school desktop application.  A bit retro!  If you don't, it'll be a bit of a dogs breakfast.
-2. A WASM SPA is a compiled executable - just like a desktop application.  The startup page is just like a Shortcut.
-3. A Server SPA is a pointer to a class in the code running on the web site.  The startup page is a server-side shortcut to get it up and running.  Once started, the SPA is a two part affair: one half is the browser SPA, the other a session on the Blazor Hub on the server, inexorably joined by a SignalR session.
-4. You need to be very careful in your Url referencing: a missing "/" can blow you out of the water!
+1. To write Blazor SPA's you need to get out of the "Web" paradigm.  Think old-school desktop application.  A bit retro!  If you don't, you SPA could be a bit of a dogs breakfast.  Version x will bear little resemblance to version 1.
+2. A WASM SPA is a compiled executable - just like a desktop application.  The startup page is a shortcut.
+3. A Server SPA is a pointer to a class in the library running on the web site.  The startup page is a server-side shortcut to get it up and running.  Once started, the SPA is a two part affair: one half is the browser SPA, the other a session on the Blazor Hub on the server, inexorably joined by a SignalR session.
+4. You need to be very careful in your Url referencing: a missing "/" or a capital letter can blow you out of the water!  Stick to the rule that all urls and things that define bits of Urls only used small letters.  It's pretty easy to start digging holes  I've been there!

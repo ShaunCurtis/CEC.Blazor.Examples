@@ -2,8 +2,6 @@
 
 I've tried to keep this as simple as possible, basing the sites on the out-of-the-box templates.  I've made no attempt to consolidate code into shared libraries.
 
-![Hydra](https://github.com/ShaunCurtis/CEC.Blazor.Examples/blob/master/Images/Hydra.png?raw=true)
-
 ## Building the Hydra Site
 
 Build the starting solution as follows (all are built from the standard VS 2019 templates):
