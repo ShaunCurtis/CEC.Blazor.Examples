@@ -33,9 +33,13 @@ namespace CEC.Blazor
             services.AddServerSideBlazor();
             services.AddServerSideHttpClient();
             services.AddSingleton<IWeatherForecastService, WeatherForecastService>();
+            services.AddSingleton<CEC.Blazor.Editor.Data.EditorWeatherService>();
+            services.AddSingleton<CEC.Blazor.Editor.EditorWeatherForecastDataService>();
+            services.AddScoped<CEC.Blazor.Editor.EditorWeatherForecastControllerService>();
+            services.AddSingleton<CEC.Blazor.ModalEditor.ModalEditorWeatherForecastDataService>();
+            services.AddScoped<CEC.Blazor.ModalEditor.ModalEditorWeatherForecastControllerService>();
             // CEC - Services added here
             services.AddCECRouting();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,6 +100,8 @@ namespace CEC.Blazor
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapRazorPages();
+                endpoints.MapFallbackToPage("/editor/{*path:nonfile}", "/_Editor");
+                endpoints.MapFallbackToPage("/modaleditor/{*path:nonfile}", "/_ModalEditor");
                 endpoints.MapFallbackToPage("/examplesserver/{*path:nonfile}", "/_ExamplesServer");
                 endpoints.MapFallbackToPage("/grey/{*path:nonfile}", "/_Grey");
                 endpoints.MapFallbackToPage("/blue/{*path:nonfile}", "/_Blue");

@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CEC.Blazor.Editor\CEC.Blazor.Editor\CEC.Blazor.Editor.csproj" />
+    <ProjectReference Include="..\..\CEC.Blazor.Editor\CEC.Blazor.ModalEditor\CEC.Blazor.ModalEditor.csproj" />
     <ProjectReference Include="..\CEC.Blazor.Examples\Client\CEC.Blazor.Examples.Client.csproj" />
     <ProjectReference Include="..\Mongrel\Mongrel.Server.Blue\Mongrel.Server.Blue.csproj" />
     <ProjectReference Include="..\Mongrel\Mongrel.Server.Grey\Mongrel.Server.Grey.csproj" />
